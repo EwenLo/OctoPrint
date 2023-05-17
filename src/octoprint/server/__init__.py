@@ -1349,7 +1349,7 @@ class Server:
         ):
             return Locale.negotiate([default_language], LANGUAGES)
 
-        return Locale.parse(request.accept_languages.best_match(LANGUAGES))
+        return Locale.parse(request.accept_languages.best_match(LANGUAGES, default="en"))
 
     def _setup_heartbeat_logging(self):
         logger = logging.getLogger(__name__ + ".heartbeat")
@@ -1472,6 +1472,7 @@ class Server:
             app,
             key_func=get_remote_address,
             enabled=s.getBoolean(["devel", "enableRateLimiter"]),
+            storage_uri="memory://",
         )
 
     def _setup_i18n(self, app):
